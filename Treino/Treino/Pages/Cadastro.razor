@@ -1,0 +1,35 @@
+﻿@page "/"
+
+<h3>Cadastro de Funcionario</h3>
+<EditForm>
+	<label class="form-label">Nome:</label>
+	<InputText class="form-control" @bind-Value="Func.Nome"></InputText><br />
+	<label class="form-label">Data de Nascimento:</label>
+	<InputDate class="form-control" @bind-Value="Func.Nascimento"></InputDate><br />
+	<label class="form-label">Data de Admissão:</label>
+	<InputDate class="form-control" @bind-Value="Func.Admissao"></InputDate><br />	
+</EditForm>
+<button @onclick="AdicionaFuncionario">Adicionar</button>
+
+@if (listaFuncionario.Count > 0)
+{
+	foreach (Funcionario Func in listaFuncionario) ;
+	<label>Nome: @Func.Nome </label><br />
+	<label>Nascimento: @Func.Nascimento</label><br />
+	<label>Admissão: @Func.Admissao</label><br />
+	
+	@Func.Admissao
+
+}
+
+@code {
+	Funcionario Func = new();
+	List<Funcionario> listaFuncionario = new();
+	void AdicionaFuncionario()
+	{
+		listaFuncionario.Add(Func);
+		listaFuncionario.Add(Func);
+		listaFuncionario.Add(Func);
+	}
+
+}

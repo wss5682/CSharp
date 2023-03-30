@@ -1,0 +1,121 @@
+﻿@page "/"
+
+
+<EditForm Model="@listaFuncionario">
+	<div class="text-secondary movie-search">
+		<h1>Cadastro de Funcionário</h1>
+		<div class="form-control bg">
+			<InputText style="text-align=center" placeholder="Nome" class="form-control input-group-text" @bind-Value="Func.Nome"></InputText><br />
+		</div><br />
+		<div class="form-control">
+
+			<InputText placeholder="Cargo" class="form-control input-group-text" @bind-Value="Func.Cargo"></InputText><br />
+		</div><br />
+
+		<div class="form-control">
+
+			<InputDate placeholder="Data de Nascimento" class="form-control input-group-text" @bind-Value="Func.Nascimento"></InputDate><br />
+		</div><br />
+
+		<div class="form-control">
+
+			<InputDate placeholder="Data de Admissão" class="form-control input-group-text" @bind-Value="Func.Admissao"></InputDate><br />
+		</div>
+
+		<br />
+		<div><button type="submit" @onclick="@AdicionaFuncionario" class="btn btn-success align-right">Adicionar</button></div><br />
+		<InputText placeholder="Filtrar por tempo de casa" @bind-Value="filtro"></InputText>
+		<div><button class="btn btn-secondary" @onclick="@Filtrar">Filtrar</button></div>
+
+
+	</div>
+
+	@if (listaFuncionario.Count > 0)
+	{
+		<br />
+
+
+		<div class="container">
+			<div class="row">
+				<div class="col">
+					<strong>Nome</strong>
+				</div>
+				<div class="col">
+					<strong>Cargo</strong>
+				</div>
+				<div class="col">
+					<strong>Admissão</strong>
+				</div>
+				<div class="col">
+					<strong>Tempo de casa</strong>
+				</div>
+				<div class="col">
+					<strong>Nascimento</strong>
+				</div>
+				<div class="col">
+					<strong>Idade</strong>
+				</div>
+			</div>
+		</div>
+		foreach (Funcionario Func in listaFuncionario)
+		{
+			<div class="row">
+				<div class="col">
+					@Func.Nome
+				</div>
+				<div class="col">
+					@Func.Cargo
+				</div>
+				<div class="col">
+					@Func.Admissao.ToShortDateString()
+				</div>
+				<div class="col">
+					@Func.TempodeCasa()
+				</div>
+				<div class="col">
+					@Func.Nascimento.ToShortDateString()
+				</div>
+				<div class="col">
+					@Func.CalculaIdade()
+
+				</div>
+			</div>
+
+		}
+
+	}
+
+
+
+</EditForm>
+
+
+
+
+@code {
+
+	public List<Funcionario> listaFuncionario = new();
+	public Funcionario Func = new();
+	//Funcionario tempodeCasa = new();
+	//Funcionario idade = new();
+	List<Funcionario> listaFiltrada = new();
+	string filtro = "";
+
+	void AdicionaFuncionario()
+	{
+		listaFuncionario.Add(Func);
+		Func = new();
+		listaFiltrada = listaFuncionario;
+		//tempodeCasa = Convert.ToString(DateTime.Today - Func.Admissao);
+	}
+	void Filtrar()
+	{
+		{
+			if (string.IsNullOrEmpty(filtro))
+			{
+				return;
+			}
+			listaFiltrada = listaFuncionario.Where(e => e.TempodeCasa() > Convert.ToDouble(filtro)).ToList();
+		}
+	}
+}

@@ -1,0 +1,63 @@
+﻿@page "/Num"
+
+
+<PageTitle>Trabalhando com o List</PageTitle>
+
+
+
+<div>
+	<h1>Caixa</h1>
+	<div><InputNumber class="form-control" @bind-Value="numero"></InputNumber></div><br />
+
+	<div><button @onclick="AdicionaNumero" class="btn btn-outline-primary" align="center">Adicionar Numero</button></div><br />
+	@if (listaNumeros.Count != 0)
+	{
+		soma = 0; media = 0;
+
+		foreach (int andarAtual in listaNumeros)
+		{
+
+			soma = soma + andarAtual;
+			media = soma / andarAtual;
+
+
+
+			
+			<label>Subtotal = R$@Math.Round(soma,2)     |     </label>
+			<br>
+
+			<label>A média é  @Math.Round(media,2)    |    </label>
+			int item = andarAtual + 1;
+			<label> Qtd @item</label>
+			<br />
+
+
+
+
+		}
+	}
+
+
+
+
+
+
+
+</div>
+
+@code {
+
+	double numero;
+	List<double> listaNumeros = new List<double>();
+	double soma; double media;
+
+
+
+	void AdicionaNumero()
+	{
+		listaNumeros.Add(numero);
+		@numero
+
+	}
+
+}

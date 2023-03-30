@@ -1,0 +1,54 @@
+﻿@page "/nasa"
+@using CadastroNovo
+
+@using System.Text.Json
+@inject HttpClient httpClient
+ 
+<div class="text-center mb-3">
+	<h1 class="text-center">Consulta - Imagem do dia da nasa</h1>
+
+	<label class="text-muted">Informe uma data</label>
+	<InputDate @bind-Value=@data></InputDate>
+
+	<button class="btn btn-primary" @onclick=EncontraImagem>Mostar imagem</button>
+</div>
+
+@if (!string.IsNullOrEmpty(nasa.Explanation))
+{
+	<h3 class="text-center text-muted">@nasa.Title</h3>
+	<label class="border rounded p-2  text-muted" style="font-size:0.8rem">@nasa.Explanation</label>
+	<div class="text-center">
+		<img class="my-3 w-auto" src="@nasa.Url" />
+	</div>
+}
+
+@code {
+	DateTime data = DateTime.UtcNow;
+	Nasa nasa = new();
+
+	async void EncontraImagem()
+	{
+		// Vamos separar as partes da data
+		string ano = data.Year.ToString();
+		string mes = data.Month.ToString();
+		string dia = data.Day.ToString();
+
+		// Vamos preparar a url da api a ser usada
+		string urlApi = $"https://api.nasa.gov/planetary/apod?date={ano}-{mes}-{dia}&api_key=DEMO_KEY";
+
+		// Vamos fazer um request para a API e obter um response
+		var response = await httpClient.GetAsync(urlApi);
+
+		if (response.IsSuccessStatusCode)
+		{
+			// Vamos pegar o conteúdo do response
+			var conteudo = await response.Content.ReadAsStringAsync();
+
+			// Vamos converter o conteúdo do response para um tipo que podemos trabalhar
+			var opcoes = new JsonSerializerOptions();
+			opcoes.PropertyNameCaseInsensitive = true;
+			nasa = JsonSerializer.Deserialize<Nasa>(conteudo, opcoes);
+			await InvokeAsync(StateHasChanged);
+		}
+	}
+}

@@ -1,0 +1,113 @@
+﻿@page "/"
+
+
+<EditForm Model="@listaFuncionario">
+	<div class="text-secondary movie-search">
+		<h1>Cadastro de Funcionário</h1>
+		<div class="form-control bg">
+			<label class="form-label">Nome:</label><br />
+			<InputText class="form-control input-group-text" @bind-Value="Func.Nome"></InputText><br />
+		</div><br />
+		<div class="form-control">
+			<label class="form-label ">Cargo:</label>
+			<InputDate class="form-control input-group-text" @bind-Value="Func.Cargo"></InputDate><br />
+		</div><br />
+
+		<div class="form-control">
+			<label class="form-label ">Data de Nascimento:</label>
+			<InputDate class="form-control input-group-text" @bind-Value="Func.Nascimento"></InputDate><br />
+		</div><br />
+
+		<div class="form-control">
+			<label class="form-label">Data de Admissão:</label>
+			<InputDate class="form-control input-group-text" @bind-Value="Func.Admissao"></InputDate><br />
+		</div>
+
+		<br />
+		<button @onclick="AdicionaFuncionario" class="btn btn-success align-right">Adicionar</button>
+
+		<InputText class="form-control input-group-text"></InputText>
+
+	</div>
+
+	@if (listaFuncionario.Count > 0)
+	{
+		<br />
+
+		foreach (Funcionario Func in listaFuncionario)
+		{
+			<div class="container">
+				<div class="row">
+					<div class="col">
+						Nome
+					</div>
+					<div class="col">
+						Cargo
+					</div>
+					<div class="col">
+						Admissão
+					</div>
+					<div class="col">
+						Tempo de casa
+					</div>
+					<div class="col">
+						Nascimento
+					</div>
+					<div class="col">
+						Idade
+					</div>
+				</div>
+				<div class="row">
+					<div class="col">
+						@Func.Nome
+					</div>
+					<div class="col">
+						@Func.Cargo
+					</div>
+					<div class="col">
+						@Func.Admissao
+					</div>
+					<div class="col">
+						@tempodeCasa
+					</div>
+					<div class="col">
+						@Func.Nascimento
+					</div>
+					<div class="col">
+						Idade
+					</div>
+				</div>
+			</div>
+		}
+
+	}
+
+
+
+</EditForm>
+
+
+
+
+@code {
+
+	public List<Funcionario> listaFuncionario = new();
+	public Funcionario Func = new();
+	double tempodeCasa = new();
+	double idade = new();
+
+
+	void AdicionaFuncionario()
+	{
+
+		listaFuncionario.Add(Func);
+		Func = new();
+		//tempodeCasa = TempodeCasa();
+
+		
+
+	}
+	List<Funcionario> filtro = new();
+	
+	
+}
